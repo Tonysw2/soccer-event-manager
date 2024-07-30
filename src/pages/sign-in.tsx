@@ -22,7 +22,8 @@ export function SignIn() {
       client_id: env.VITE_GOOGLE_CLIENT_ID,
       redirect_uri: 'http://localhost:5173/callbacks/google',
       response_type: 'token',
-      scope: '',
+      scope:
+        'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
     })
   }
 
