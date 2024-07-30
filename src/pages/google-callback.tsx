@@ -18,7 +18,6 @@ export function GoogleCallback() {
     }
 
     if (params.access_token && params.state === env.VITE_GOOGLE_STATE) {
-      console.log('here')
       localStorage.setItem(
         storageKeys.googleAccessToken,
         params.access_token as string,
@@ -30,6 +29,8 @@ export function GoogleCallback() {
       )
 
       navigate('/home', { replace: true })
+    } else {
+      navigate('/sign-in', { replace: true })
     }
   }, [])
 
