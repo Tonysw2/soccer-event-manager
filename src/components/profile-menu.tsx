@@ -1,5 +1,6 @@
-import { Loader2, LogOut } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   DropdownMenu,
@@ -9,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { storageKeys } from '@/config/storageKeys'
 import {
   GoogleAuthServices,
   UserInfoResponse,
@@ -16,9 +18,30 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Skeleton } from './ui/skeleton'
+import { useToast } from './ui/use-toast'
 
 export function ProfileMenu() {
+  const { toast } = useToast()
+  const navigate = useNavigate()
   const [user, setUser] = useState<UserInfoResponse>()
+
+  async function handleSignOut() {
+    const { dismiss } = toast({
+      title: 'Signing out...',
+      duration: Infinity,
+    })
+
+    try {
+      await GoogleAuthServices.signOut()
+    } catch {
+    } finally {
+      const storageKeysArray = Object.values(storageKeys)
+      console.log(storageKeysArray)
+      storageKeysArray.forEach((key) => localStorage.removeItem(key))
+      dismiss()
+      navigate('/sign-in')
+    }
+  }
 
   useEffect(() => {
     GoogleAuthServices.getUserInfo()
@@ -32,7 +55,7 @@ export function ProfileMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="ml-auto flex items-center justify-center rounded-full">
+      <DropdownMenuTrigger className="ml-auto flex items-center justify-center">
         <Avatar className="ml-auto">
           <AvatarImage src={user?.picture} />
           <AvatarFallback>
@@ -42,7 +65,7 @@ export function ProfileMenu() {
                 {user.family_name.slice(0, 1)}
               </>
             ) : (
-              <Loader2 className="size-4 animate-spin" />
+              <Skeleton className="h-full w-full bg-amber-500" />
             )}
           </AvatarFallback>
         </Avatar>
@@ -59,7 +82,7 @@ export function ProfileMenu() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild className="text-red-500">
-          <button className="w-full">
+          <button type="button" className="w-full" onClick={handleSignOut}>
             <LogOut className="mr-2 size-4" />
             <span>Sign-out</span>
           </button>

@@ -19,8 +19,8 @@ export function Home() {
   })
 
   return (
-    <main className="mx-auto w-full max-w-7xl">
-      <header className="mx-auto mt-10 max-w-7xl">
+    <main className="mx-auto w-full max-w-7xl px-5">
+      <header className="mt-10">
         <ProfileMenu />
       </header>
 
