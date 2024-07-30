@@ -9,7 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { GoogleServices } from '@/services/google-services'
+import { env } from '@/config/env'
+import { GoogleAuthServices } from '@/services/google-auth-services'
 
 export function SignIn() {
   const [searchParams] = useSearchParams()
@@ -17,7 +18,10 @@ export function SignIn() {
   const error = searchParams.get('error')
 
   async function signInWithGoogle() {
-    GoogleServices.signIn({
+    GoogleAuthServices.signIn({
+      client_id: env.VITE_GOOGLE_CLIENT_ID,
+      redirect_uri: 'http://localhost:5173/callbacks/google',
+      response_type: 'token',
       scope: '',
     })
   }
