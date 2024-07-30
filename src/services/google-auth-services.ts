@@ -15,6 +15,16 @@ export interface GoogleAuthOptions {
   prompt?: 'none' | 'consent' | 'select_account'
 }
 
+export interface UserInfoResponse {
+  family_name: string
+  name: string
+  picture: string
+  email: string
+  given_name: string
+  id: string
+  verified_email: boolean
+}
+
 export class GoogleAuthServices {
   static signIn = (options: GoogleAuthOptions) => {
     const baseUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
@@ -28,5 +38,16 @@ export class GoogleAuthServices {
     const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
     const query = qs.stringify({ token: accessToken })
     await api.post(`${baseUrl}?${query}`)
+  }
+
+  static getUserInfo = async () => {
+    const baseUrl = 'https://www.googleapis.com/userinfo/v2/me'
+    const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
+    const response = await api.get<UserInfoResponse>(baseUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    return response.data
   }
 }
