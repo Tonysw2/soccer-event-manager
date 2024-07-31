@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react'
+import { PlusCircle, Trash2 } from 'lucide-react'
 
 import { DatePicker } from '@/components/date-picker'
 import { useCreateEventForm } from '@/hooks/use-create-event-form'
@@ -22,12 +22,9 @@ export function CreateEventForm() {
 
   return (
     <form className="space-y-4">
-      <div className="flex gap-2">
+      <div className="flex gap-2 bg-background">
         <Button size="sm" type="submit">
           Submit event creation
-        </Button>
-        <Button size="sm" type="button" variant="secondary">
-          Add event
         </Button>
       </div>
 
@@ -93,6 +90,14 @@ export function CreateEventForm() {
             </CardFooter>
           </Card>
         ))}
+
+        <button
+          type="button"
+          className="flex h-[564px] items-center justify-center rounded-lg border"
+          onClick={() => events.append({})}
+        >
+          <PlusCircle className="size-6" />
+        </button>
       </div>
     </form>
   )
