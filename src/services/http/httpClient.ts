@@ -1,7 +1,9 @@
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
+  AxiosResponse,
   CreateAxiosDefaults,
+  InternalAxiosRequestConfig,
 } from 'axios'
 
 export default class HttpClient {
@@ -9,6 +11,24 @@ export default class HttpClient {
 
   constructor(config?: CreateAxiosDefaults) {
     this.api = axios.create(config)
+  }
+
+  addRequestInterceptor(
+    onSuccess?: (
+      config: InternalAxiosRequestConfig,
+    ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>,
+    onRejected?: (error: any) => any | null,
+  ) {
+    this.api.interceptors.request.use(onSuccess, onRejected)
+  }
+
+  addResponseInterceptor(
+    onSuccess?: (
+      response: AxiosResponse,
+    ) => AxiosResponse | Promise<AxiosResponse>,
+    onRejected?: (error: any) => any | null,
+  ) {
+    this.api.interceptors.response.use(onSuccess, onRejected)
   }
 
   get<T = any>(path: string, options?: AxiosRequestConfig) {

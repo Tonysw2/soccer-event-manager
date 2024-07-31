@@ -1,3 +1,5 @@
+import { AxiosRequestConfig } from 'axios'
+
 import { storageKeys } from '@/config/storageKeys'
 import { ICalendar } from '@/interfaces/calendar'
 
@@ -11,22 +13,34 @@ interface ListCalendarsResponse {
   items: ICalendar[]
 }
 
-export class GoogleCalendarApiServices {
-  private static api = new HttpClient({
-    baseURL: 'https://www.googleapis.com/calendar/v3',
+class GoogleCalendarApi {
+  constructor() {
+    this.api = new HttpClient({
+      baseURL: 'https://www.googleapis.com/calendar/v3',
+    })
+
+    this.api.addRequestInterceptor((config) => {
+      console.log('running')
+      const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
+      config.headers.set('Authorization', `Bearer ${accessToken}`)
+      return config
+    })
+  }
+
+  private api = new HttpClient({
     headers: {
       Authorization: `Bearer ${localStorage.getItem(storageKeys.googleAccessToken)}`,
     },
   })
 
-  static listCalendars = async ({ signal }: { signal?: AbortSignal }) => {
+  async listCalendars(options: AxiosRequestConfig) {
     const response = await this.api.get<ListCalendarsResponse>(
       '/users/me/calendarList',
-      {
-        signal,
-      },
+      options,
     )
 
     return response.data
   }
 }
+
+export const GoogleCalendarApiServices = new GoogleCalendarApi()

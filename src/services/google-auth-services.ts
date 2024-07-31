@@ -26,24 +26,28 @@ export interface UserInfoResponse {
   verified_email: boolean
 }
 
-export class GoogleAuthServices {
-  private static api = new HttpClient()
+class GoogleAuth {
+  constructor() {
+    this.api = new HttpClient()
+  }
 
-  static signIn = (options: GoogleAuthOptions) => {
+  private api: HttpClient
+
+  signIn = (options: GoogleAuthOptions) => {
     const baseUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
     const queries = qs.stringify(options)
 
     window.location.href = `${baseUrl}?${queries}`
   }
 
-  static signOut = async () => {
+  signOut = async () => {
     const baseUrl = 'https://oauth2.googleapis.com/revoke'
     const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
     const query = qs.stringify({ token: accessToken })
     await this.api.post(`${baseUrl}?${query}`)
   }
 
-  static getUserInfo = async () => {
+  getUserInfo = async () => {
     const baseUrl = 'https://www.googleapis.com/userinfo/v2/me'
     const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
     const response = await this.api.get<UserInfoResponse>(baseUrl, {
@@ -54,3 +58,5 @@ export class GoogleAuthServices {
     return response.data
   }
 }
+
+export const GoogleAuthServices = new GoogleAuth()
