@@ -1,4 +1,4 @@
-import { LogOut } from 'lucide-react'
+import { Loader2, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -52,7 +52,7 @@ export function ProfileMenu() {
                 {userInfo.family_name.slice(0, 1)}
               </>
             ) : (
-              <Skeleton className="h-full w-full bg-amber-500" />
+              <Loader2 className="size-4 animate-spin" />
             )}
           </AvatarFallback>
         </Avatar>
