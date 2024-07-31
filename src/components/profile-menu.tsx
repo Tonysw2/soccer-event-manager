@@ -1,5 +1,4 @@
 import { LogOut } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -11,10 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { storageKeys } from '@/config/storageKeys'
-import {
-  GoogleAuthServices,
-  UserInfoResponse,
-} from '@/services/google-auth-services'
+import { useGetUserInfo } from '@/hooks/use-get-user-info'
+import { GoogleAuthServices } from '@/services/google-auth-services'
 
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Skeleton } from './ui/skeleton'
@@ -23,7 +20,7 @@ import { useToast } from './ui/use-toast'
 export function ProfileMenu() {
   const { toast } = useToast()
   const navigate = useNavigate()
-  const [user, setUser] = useState<UserInfoResponse>()
+  const { userInfo } = useGetUserInfo()
 
   async function handleSignOut() {
     const { dismiss } = toast({
@@ -43,26 +40,16 @@ export function ProfileMenu() {
     }
   }
 
-  useEffect(() => {
-    GoogleAuthServices.getUserInfo()
-      .then(async (user) => {
-        setUser(user)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
-
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="ml-auto flex items-center justify-center">
+      <DropdownMenuTrigger className="ml-auto flex items-center justify-center rounded-full">
         <Avatar className="ml-auto">
-          <AvatarImage src={user?.picture} />
+          <AvatarImage src={userInfo?.picture} />
           <AvatarFallback>
-            {user ? (
+            {userInfo ? (
               <>
-                {user.given_name.slice(0, 1)}
-                {user.family_name.slice(0, 1)}
+                {userInfo.given_name.slice(0, 1)}
+                {userInfo.family_name.slice(0, 1)}
               </>
             ) : (
               <Skeleton className="h-full w-full bg-amber-500" />
@@ -73,9 +60,15 @@ export function ProfileMenu() {
 
       <DropdownMenuContent align="end">
         <DropdownMenuLabel className="flex flex-col">
-          <span>{user ? user.name : <Skeleton className="h-4 w-24" />}</span>
+          <span>
+            {userInfo ? userInfo.name : <Skeleton className="h-4 w-24" />}
+          </span>
           <span className="text-xs text-muted-foreground">
-            {user ? user.email : <Skeleton className="mt-1.5 h-3 w-32" />}
+            {userInfo ? (
+              userInfo.email
+            ) : (
+              <Skeleton className="mt-1.5 h-3 w-32" />
+            )}
           </span>
         </DropdownMenuLabel>
 
