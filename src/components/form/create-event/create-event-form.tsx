@@ -24,8 +24,6 @@ export function CreateEventForm() {
   const { form, events, handleAddEvent, handleRemoveEvent } =
     useCreateEventForm()
 
-  console.log(form.formState.errors)
-
   return (
     <form
       className="space-y-4"

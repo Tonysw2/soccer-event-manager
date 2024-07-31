@@ -33,7 +33,7 @@ export function ProfileMenu() {
     } catch {
     } finally {
       const storageKeysArray = Object.values(storageKeys)
-      console.log(storageKeysArray)
+
       storageKeysArray.forEach((key) => localStorage.removeItem(key))
       dismiss()
       navigate('/sign-in')
