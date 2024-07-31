@@ -42,7 +42,7 @@ export function ProfileMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="ml-auto flex items-center justify-center rounded-full">
+      <DropdownMenuTrigger className="ml-auto flex items-center justify-center rounded-full ring-2 ring-primary">
         <Avatar className="ml-auto">
           <AvatarImage src={userInfo?.picture} />
           <AvatarFallback>
