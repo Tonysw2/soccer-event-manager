@@ -21,7 +21,11 @@ class GoogleCalendarApi {
 
     this.api.addRequestInterceptor((config) => {
       const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
-      config.headers.set('Authorization', `Bearer ${accessToken}`)
+
+      if (accessToken) {
+        config.headers.set('Authorization', `Bearer ${accessToken}`)
+      }
+
       return config
     })
   }

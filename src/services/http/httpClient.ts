@@ -6,11 +6,24 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios'
 
+import { storageKeys } from '@/config/storageKeys'
+
 export default class HttpClient {
   private api: AxiosInstance
 
   constructor(config?: CreateAxiosDefaults) {
     this.api = axios.create(config)
+
+    this.api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          localStorage.removeItem(storageKeys.googleAccessToken)
+          localStorage.removeItem(storageKeys.googleApplicationState)
+          window.location.href = 'http://localhost:5173/sign-in'
+        }
+      },
+    )
   }
 
   addRequestInterceptor(
