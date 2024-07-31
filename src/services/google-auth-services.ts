@@ -1,7 +1,8 @@
 import qs from 'qs'
 
 import { storageKeys } from '@/config/storageKeys'
-import { api } from '@/lib/axios'
+
+import HttpClient from './http/httpClient'
 
 export interface GoogleAuthOptions {
   state?: string
@@ -26,6 +27,8 @@ export interface UserInfoResponse {
 }
 
 export class GoogleAuthServices {
+  private static api = new HttpClient()
+
   static signIn = (options: GoogleAuthOptions) => {
     const baseUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
     const queries = qs.stringify(options)
@@ -37,13 +40,13 @@ export class GoogleAuthServices {
     const baseUrl = 'https://oauth2.googleapis.com/revoke'
     const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
     const query = qs.stringify({ token: accessToken })
-    await api.post(`${baseUrl}?${query}`)
+    await this.api.post(`${baseUrl}?${query}`)
   }
 
   static getUserInfo = async () => {
     const baseUrl = 'https://www.googleapis.com/userinfo/v2/me'
     const accessToken = localStorage.getItem(storageKeys.googleAccessToken)
-    const response = await api.get<UserInfoResponse>(baseUrl, {
+    const response = await this.api.get<UserInfoResponse>(baseUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

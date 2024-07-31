@@ -3,7 +3,7 @@ import { ProfileMenu } from '@/components/profile-menu'
 
 export function Home() {
   return (
-    <main className="mx-auto w-full max-w-7xl px-5">
+    <main className="mx-auto w-full max-w-7xl px-5 pb-10">
       <header className="mt-10">
         <ProfileMenu />
       </header>

@@ -1,9 +1,9 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
-import { checkSecureRoute } from './lib/check-secure-route'
 import { GoogleCallback } from './pages/google-callback'
 import { Home } from './pages/home'
 import { SignIn } from './pages/sign-in'
+import { checkSecureRoute } from './utils/check-secure-route'
 
 export const router = createBrowserRouter([
   {
