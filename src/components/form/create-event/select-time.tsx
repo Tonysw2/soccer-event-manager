@@ -1,3 +1,5 @@
+import { SelectProps } from '@radix-ui/react-select'
+
 import {
   Select,
   SelectContent,
@@ -7,16 +9,20 @@ import {
 } from '@/components/ui/select'
 import { generateTimeIntervals } from '@/utils/generate-time-intervals'
 
-interface SelectTime {
-  value: string
-  onChange(): void
+interface SelectTimeProps extends SelectProps {
+  from?: string
+  interval?: number
 }
 
-export function SelectTime({ value, onChange }: SelectTime) {
-  const timeSlots = generateTimeIntervals(15)
+export function SelectTime({
+  interval = 15,
+  from = '00:00',
+  ...rest
+}: SelectTimeProps) {
+  const timeSlots = generateTimeIntervals(interval, from)
 
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select {...rest}>
       <SelectTrigger>
         <SelectValue placeholder="Pick a time" />
       </SelectTrigger>

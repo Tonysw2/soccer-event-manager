@@ -1,3 +1,5 @@
+import { SelectProps } from '@radix-ui/react-select'
+
 import {
   Select,
   SelectContent,
@@ -7,24 +9,18 @@ import {
 } from '@/components/ui/select'
 import { useListCalendars } from '@/hooks/use-list-calendars'
 
-interface SelectCalendarProps {
-  value: string
-  onChange(): void
-}
+interface SelectCalendarProps extends SelectProps {}
 
-export function SelectCalendar({ value, onChange }: SelectCalendarProps) {
+export function SelectCalendar({ ...rest }: SelectCalendarProps) {
   const { calendars, isLoadingCalendars } = useListCalendars()
 
   return (
-    <Select
-      value={value}
-      onValueChange={onChange}
-      disabled={isLoadingCalendars}
-    >
+    <Select disabled={isLoadingCalendars} {...rest}>
       <SelectTrigger loading={isLoadingCalendars}>
-        <SelectValue placeholder="Pick a calendar" />
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
+        <SelectItem value="none">Pick a calendar</SelectItem>
         {calendars?.map((calendar) => (
           <SelectItem key={calendar.id} value={calendar.id}>
             {calendar.summary}
