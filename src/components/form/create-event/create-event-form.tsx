@@ -1,7 +1,6 @@
 import { PlusCircle, Trash2 } from 'lucide-react'
 import { Controller, FormProvider } from 'react-hook-form'
 
-import { DatePicker } from '@/components/date-picker'
 import { useCreateEventForm } from '@/hooks/use-create-event-form'
 
 import { Button } from '../../ui/button'
@@ -15,9 +14,11 @@ import {
 } from '../../ui/card'
 import { Input } from '../../ui/input'
 import { Label } from '../../ui/label'
+import { EndDatePicker } from './end-date-picker'
 import { SelectCalendar } from './select-calendar'
 import { SelectEndTimeInput } from './select-end-time-input'
 import { SelectStartTimeInput } from './select-start-time-input'
+import { StartDatePicker } from './start-date-picker'
 
 export function CreateEventForm() {
   const { form, events, handleAddEvent, handleRemoveEvent } =
@@ -70,33 +71,9 @@ export function CreateEventForm() {
                   />
                 </div>
 
-                <Controller
-                  control={form.control}
-                  name={`events.${eventIndex}.startDate`}
-                  render={({ field }) => (
-                    <div className="flex flex-col gap-1.5">
-                      <Label>Start date</Label>
-                      <DatePicker
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    </div>
-                  )}
-                />
+                <StartDatePicker eventIndex={eventIndex} />
 
-                <Controller
-                  control={form.control}
-                  name={`events.${eventIndex}.endDate`}
-                  render={({ field }) => (
-                    <div className="flex flex-col gap-1.5">
-                      <Label>End date</Label>
-                      <DatePicker
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    </div>
-                  )}
-                />
+                <EndDatePicker eventIndex={eventIndex} />
 
                 <SelectStartTimeInput eventIndex={eventIndex} />
 

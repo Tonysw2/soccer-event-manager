@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-react'
+import { Matcher } from 'react-day-picker'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -12,10 +13,11 @@ import { cn } from '@/lib/utils'
 
 interface DatePickerProps {
   value: Date
-  onChange(): void
+  onChange: ((...event: any[]) => void) | ((value: Date | undefined) => void)
+  disabled?: Matcher | Matcher[] | undefined
 }
 
-export function DatePicker({ value, onChange }: DatePickerProps) {
+export function DatePicker({ value, disabled, onChange }: DatePickerProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -35,6 +37,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
           mode="single"
           selected={value}
           onSelect={onChange}
+          disabled={disabled}
           initialFocus
         />
       </PopoverContent>
