@@ -32,7 +32,6 @@ export function CreateEventForm() {
   const { toast } = useToast()
   const { form, events, handleAddEvent, handleRemoveEvent } =
     useCreateEventForm()
-  console.log('errors =>', form.formState.errors)
 
   async function handleCreateEvent(data: CreateEventDataType) {
     const toastConfig = toast({
