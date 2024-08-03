@@ -10,16 +10,11 @@ import {
 import { generateTimeIntervals } from '@/utils/generate-time-intervals'
 
 interface SelectTimeProps extends SelectProps {
-  from?: string
   interval?: number
 }
 
-export function SelectTime({
-  interval = 15,
-  from = '00:00',
-  ...rest
-}: SelectTimeProps) {
-  const timeSlots = generateTimeIntervals(interval, from)
+export function SelectTime({ interval = 15, ...rest }: SelectTimeProps) {
+  const timeSlots = generateTimeIntervals(interval)
 
   return (
     <Select {...rest}>
@@ -27,6 +22,7 @@ export function SelectTime({
         <SelectValue placeholder="Pick a time" />
       </SelectTrigger>
       <SelectContent>
+        <SelectItem value="none">None</SelectItem>
         {timeSlots.map((time) => (
           <SelectItem key={time} value={time}>
             {time}

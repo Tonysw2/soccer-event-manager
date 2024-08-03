@@ -1,7 +1,13 @@
+import { format, parse } from 'date-fns'
 import { PlusCircle, Trash2 } from 'lucide-react'
 import { Controller, FormProvider } from 'react-hook-form'
 
-import { useCreateEventForm } from '@/hooks/use-create-event-form'
+import { useToast } from '@/components/ui/use-toast'
+import {
+  CreateEventDataType,
+  useCreateEventForm,
+} from '@/hooks/use-create-event-form'
+import { GoogleCalendarApiServices } from '@/services/google-calendar-api-services'
 
 import { Button } from '../../ui/button'
 import {
@@ -21,22 +27,92 @@ import { SelectStartTimeInput } from './select-start-time-input'
 import { StartDatePicker } from './start-date-picker'
 
 export function CreateEventForm() {
+  const { toast } = useToast()
   const { form, events, handleAddEvent, handleRemoveEvent } =
     useCreateEventForm()
+  console.log('errors =>', form.formState.errors)
+
+  async function handleCreateEvent(data: CreateEventDataType) {
+    const toastConfig = toast({
+      title: 'Events Being Added',
+      description:
+        'Your events are currently being added to your calendar. This process may take a few moments. Thank you for your patience!',
+    })
+
+    try {
+      const promises = data.events.map((event) => {
+        let data
+
+        if (event.startTime === 'none') {
+          data = {
+            summary: event.summary,
+            description: event.description,
+            location: event.location,
+            start: {
+              date: format(event.startDate, 'yyyy-MM-dd'),
+            },
+            end: {
+              date: format(event.endDate, 'yyyy-MM-dd'),
+            },
+          }
+        }
+
+        if (event.startTime !== 'none') {
+          data = {
+            summary: event.summary,
+            description: event.description,
+            location: event.location,
+            start: {
+              dateTime: parse(
+                event.startTime!,
+                'HH:mm',
+                event.startDate,
+              ).toISOString(),
+            },
+            end: {
+              dateTime: parse(
+                event.endTime!,
+                'HH:mm',
+                event.startDate,
+              ).toISOString(),
+            },
+          }
+        }
+
+        return GoogleCalendarApiServices.createEvent({
+          calendarId: event.calendar,
+          data,
+        })
+      })
+
+      await Promise.all(promises)
+
+      toastConfig.update({
+        id: toastConfig.id,
+        title: 'Congratulations!',
+        description:
+          'Your events were added to Google Calendar, go and check your calendar.',
+      })
+    } catch (error) {
+      console.log(error)
+      toastConfig.update({
+        id: toastConfig.id,
+        title: 'Ops!',
+        description: 'An error ocurred while adding events to Google Calendar.',
+      })
+    }
+  }
 
   return (
-    <form
-      className="space-y-4"
-      onSubmit={form.handleSubmit((data: any) => console.log(data))}
-    >
+    <form className="space-y-4" onSubmit={form.handleSubmit(handleCreateEvent)}>
       <div className="flex gap-2 bg-background">
-        <Button size="sm" type="submit">
+        <Button size="sm" type="submit" disabled={form.formState.isSubmitting}>
           Submit event creation
         </Button>
       </div>
 
       <FormProvider {...form}>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {events.fields.map((event, eventIndex) => (
             <Card key={event.id}>
               <CardHeader>
@@ -98,6 +174,7 @@ export function CreateEventForm() {
                   variant="destructive"
                   className="w-full"
                   onClick={handleRemoveEvent(eventIndex)}
+                  disabled={form.formState.isSubmitting}
                 >
                   <Trash2 className="mr-1.5 size-4" />
                   Delete event

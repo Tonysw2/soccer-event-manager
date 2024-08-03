@@ -23,7 +23,7 @@ export function StartDatePicker({ eventIndex }: StartDatePickerProps) {
       control={form.control}
       name={`events.${eventIndex}.startDate`}
       render={({ field }) => (
-        <div className="flex flex-col gap-1.5">
+        <div className="xs:col-span-1 col-span-full flex flex-col gap-1.5">
           <Label>Start date</Label>
           <DatePicker
             value={field.value}

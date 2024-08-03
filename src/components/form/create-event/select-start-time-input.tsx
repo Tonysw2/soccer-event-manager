@@ -23,7 +23,7 @@ export function SelectStartTimeInput({
 
   function handleChange(onChange: (...event: any[]) => void) {
     return (value: string) => {
-      const increasedTime = addHoursToTime(value, 1)
+      const increasedTime = value === 'none' ? value : addHoursToTime(value, 1)
       onChange(value)
       form.setValue(`events.${eventIndex}.endTime`, increasedTime)
     }

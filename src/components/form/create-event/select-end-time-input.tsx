@@ -12,7 +12,8 @@ interface SelectEndTimeInputProps {
 export function SelectEndTimeInput({ eventIndex }: SelectEndTimeInputProps) {
   const form = useFormContext<CreateEventDataType>()
 
-  const startTime = form.watch(`events.${eventIndex}.startTime`)
+  const isStartTimeDirty =
+    form.formState.dirtyFields.events?.at(eventIndex)?.startTime
 
   return (
     <Controller
@@ -23,11 +24,8 @@ export function SelectEndTimeInput({ eventIndex }: SelectEndTimeInputProps) {
           <Label>End time</Label>
           <SelectTime
             value={field.value}
+            disabled={!isStartTimeDirty}
             onValueChange={field.onChange}
-            from={startTime}
-            disabled={
-              !form.formState.dirtyFields.events?.at(eventIndex)?.startTime
-            }
           />
         </div>
       )}

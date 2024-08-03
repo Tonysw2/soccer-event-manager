@@ -44,6 +44,10 @@ class GoogleCalendarApi {
 
     return response.data
   }
+
+  async createEvent({ calendarId, data }: { calendarId: string; data: any }) {
+    await this.api.post(`/calendars/${calendarId}/events`, data)
+  }
 }
 
 export const GoogleCalendarApiServices = new GoogleCalendarApi()

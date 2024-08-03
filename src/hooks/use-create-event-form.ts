@@ -15,7 +15,7 @@ const createEventSchema = z.object({
           endDate: z.date(),
           startTime: z.string().optional(),
           endTime: z.string().optional(),
-          calendar: z.string().refine((value) => value === 'none', {
+          calendar: z.string().refine((value) => value !== 'none', {
             message: 'You must choose a calendar.',
           }),
         })
@@ -34,8 +34,12 @@ const createEventSchema = z.object({
           (value) => {
             if (!value.startTime || !value.endTime) return true
 
-            const startTimeAsDate = parse(value.startTime, 'HH:mm', new Date())
-            const endTimeAsDate = parse(value.endTime, 'HH:mm', new Date())
+            const startTimeAsDate = parse(
+              value.startTime,
+              'HH:mm',
+              value.startDate,
+            )
+            const endTimeAsDate = parse(value.endTime, 'HH:mm', value.endDate)
 
             return !isBefore(endTimeAsDate, startTimeAsDate)
           },
@@ -61,8 +65,8 @@ export function useCreateEventForm() {
           location: '',
           startDate: new Date(),
           endDate: new Date(),
-          startTime: undefined,
-          endTime: undefined,
+          startTime: 'none',
+          endTime: 'none',
           calendar: 'none',
         },
       ],
@@ -81,8 +85,8 @@ export function useCreateEventForm() {
       location: '',
       startDate: new Date(),
       endDate: new Date(),
-      startTime: undefined,
-      endTime: undefined,
+      startTime: '00:00',
+      endTime: '01:00',
       calendar: 'none',
     })
   }
