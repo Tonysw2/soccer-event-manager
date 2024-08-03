@@ -14,7 +14,7 @@ export default class HttpClient {
   constructor(config?: CreateAxiosDefaults) {
     this.api = axios.create(config)
 
-    this.api.interceptors.response.use(
+    this.addResponseInterceptor(
       (response) => response,
       (error) => {
         if (error.response.status === 401) {
@@ -22,6 +22,8 @@ export default class HttpClient {
           localStorage.removeItem(storageKeys.googleApplicationState)
           window.location.href = 'http://localhost:5173/sign-in'
         }
+
+        return Promise.reject(error)
       },
     )
   }

@@ -30,11 +30,7 @@ class GoogleCalendarApi {
     })
   }
 
-  private api = new HttpClient({
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem(storageKeys.googleAccessToken)}`,
-    },
-  })
+  private api: HttpClient
 
   async listCalendars(options: AxiosRequestConfig) {
     const response = await this.api.get<ListCalendarsResponse>(

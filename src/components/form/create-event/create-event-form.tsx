@@ -74,7 +74,7 @@ export function CreateEventForm() {
               dateTime: parse(
                 event.endTime!,
                 'HH:mm',
-                event.startDate,
+                event.endDate,
               ).toISOString(),
             },
           }
@@ -95,7 +95,6 @@ export function CreateEventForm() {
           'Your events were added to Google Calendar, go and check your calendar.',
       })
     } catch (error) {
-      console.log(error)
       toastConfig.update({
         id: toastConfig.id,
         title: 'Ops!',

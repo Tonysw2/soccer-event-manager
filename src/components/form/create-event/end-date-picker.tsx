@@ -16,6 +16,13 @@ export function EndDatePicker({ eventIndex }: EndDatePickerProps) {
 
   const startDate = form.watch(`events.${eventIndex}.startDate`)
 
+  function handleChange(onChange: (...event: any[]) => void) {
+    return (value: Date) => {
+      onChange(value)
+      form.trigger(`events.${eventIndex}.endTime`)
+    }
+  }
+
   return (
     <Controller
       control={form.control}
@@ -25,7 +32,7 @@ export function EndDatePicker({ eventIndex }: EndDatePickerProps) {
           <Label>End date</Label>
           <DatePicker
             value={field.value}
-            onChange={field.onChange}
+            onChange={handleChange(field.onChange)}
             disabled={{ before: startDate }}
           />
           <ErrorMessage
