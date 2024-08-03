@@ -1,8 +1,10 @@
+import { ErrorMessage } from '@hookform/error-message'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { Label } from '@/components/ui/label'
 import { CreateEventDataType } from '@/hooks/use-create-event-form'
 
+import { FormError } from '../form-error'
 import { SelectTime } from './select-time'
 
 interface SelectEndTimeInputProps {
@@ -26,6 +28,11 @@ export function SelectEndTimeInput({ eventIndex }: SelectEndTimeInputProps) {
             value={field.value}
             disabled={!isStartTimeDirty}
             onValueChange={field.onChange}
+          />
+          <ErrorMessage
+            errors={form.formState.errors}
+            name={`events.${eventIndex}.endTime`}
+            render={({ message }) => <FormError message={message} />}
           />
         </div>
       )}

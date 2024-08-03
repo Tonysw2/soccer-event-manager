@@ -1,8 +1,11 @@
+import { ErrorMessage } from '@hookform/error-message'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { DatePicker } from '@/components/date-picker'
 import { Label } from '@/components/ui/label'
 import { CreateEventDataType } from '@/hooks/use-create-event-form'
+
+import { FormError } from '../form-error'
 
 interface EndDatePickerProps {
   eventIndex: number
@@ -24,6 +27,11 @@ export function EndDatePicker({ eventIndex }: EndDatePickerProps) {
             value={field.value}
             onChange={field.onChange}
             disabled={{ before: startDate }}
+          />
+          <ErrorMessage
+            errors={form.formState.errors}
+            name={`events.${eventIndex}.endDate`}
+            render={({ message }) => <FormError message={message} />}
           />
         </div>
       )}

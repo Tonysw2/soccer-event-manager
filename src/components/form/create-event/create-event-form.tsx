@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@hookform/error-message'
 import { format, parse } from 'date-fns'
 import { PlusCircle, Trash2 } from 'lucide-react'
 import { Controller, FormProvider } from 'react-hook-form'
@@ -20,6 +21,7 @@ import {
 } from '../../ui/card'
 import { Input } from '../../ui/input'
 import { Label } from '../../ui/label'
+import { FormError } from '../form-error'
 import { EndDatePicker } from './end-date-picker'
 import { SelectCalendar } from './select-calendar'
 import { SelectEndTimeInput } from './select-end-time-input'
@@ -120,28 +122,43 @@ export function CreateEventForm() {
                 <CardDescription>Card Description</CardDescription>
               </CardHeader>
 
-              <CardContent className="grid grid-cols-2 gap-2">
+              <CardContent className="grid grid-cols-2 gap-x-2 gap-y-4">
                 <div className="col-span-full flex flex-col gap-1.5">
                   <Label>Title</Label>
                   <Input
                     type="text"
                     {...form.register(`events.${eventIndex}.summary`)}
                   />
-                </div>
-
-                <div className="col-span-full flex flex-col gap-1.5">
-                  <Label>Description</Label>
-                  <Input
-                    type="text"
-                    {...form.register(`events.${eventIndex}.description`)}
+                  <ErrorMessage
+                    errors={form.formState.errors}
+                    name={`events.${eventIndex}.summary`}
+                    render={({ message }) => <FormError message={message} />}
                   />
                 </div>
 
                 <div className="col-span-full flex flex-col gap-1.5">
-                  <Label>Location</Label>
+                  <Label className="mb-1.5">Description</Label>
+                  <Input
+                    type="text"
+                    {...form.register(`events.${eventIndex}.description`)}
+                  />
+                  <ErrorMessage
+                    errors={form.formState.errors}
+                    name={`events.${eventIndex}.description`}
+                    render={({ message }) => <FormError message={message} />}
+                  />
+                </div>
+
+                <div className="col-span-full flex flex-col gap-1.5">
+                  <Label className="mb-1.5">Location</Label>
                   <Input
                     type="text"
                     {...form.register(`events.${eventIndex}.location`)}
+                  />
+                  <ErrorMessage
+                    errors={form.formState.errors}
+                    name={`events.${eventIndex}.location`}
+                    render={({ message }) => <FormError message={message} />}
                   />
                 </div>
 
@@ -161,6 +178,13 @@ export function CreateEventForm() {
                       <SelectCalendar
                         value={field.value}
                         onValueChange={field.onChange}
+                      />
+                      <ErrorMessage
+                        errors={form.formState.errors}
+                        name={`events.${eventIndex}.calendar`}
+                        render={({ message }) => (
+                          <FormError message={message} />
+                        )}
                       />
                     </div>
                   )}
@@ -185,7 +209,7 @@ export function CreateEventForm() {
 
           <button
             type="button"
-            className="flex h-[564px] items-center justify-center rounded-lg border"
+            className="flex h-full w-full items-center justify-center rounded-lg border"
             onClick={handleAddEvent}
           >
             <PlusCircle className="size-6" />
