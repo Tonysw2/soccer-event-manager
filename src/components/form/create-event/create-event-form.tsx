@@ -30,7 +30,7 @@ import { StartDatePicker } from './start-date-picker'
 
 export function CreateEventForm() {
   const { toast } = useToast()
-  const { form, events, handleAddEvent, handleRemoveEvent } =
+  const { form, events, handleAddEvent, resetEventFields, handleRemoveEvent } =
     useCreateEventForm()
 
   async function handleCreateEvent(data: CreateEventDataType) {
@@ -189,7 +189,7 @@ export function CreateEventForm() {
                 />
               </CardContent>
 
-              <CardFooter>
+              <CardFooter className="grid grid-cols-1 gap-2 xs:grid-cols-2">
                 <Button
                   size="sm"
                   type="button"
@@ -200,6 +200,14 @@ export function CreateEventForm() {
                 >
                   <Trash2 className="mr-1.5 size-4" />
                   Delete event
+                </Button>
+                <Button
+                  size="sm"
+                  type="button"
+                  variant="secondary"
+                  onClick={resetEventFields(eventIndex)}
+                >
+                  Reset fields
                 </Button>
               </CardFooter>
             </Card>
