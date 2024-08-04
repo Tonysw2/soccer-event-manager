@@ -2,8 +2,8 @@ import { ErrorMessage } from '@hookform/error-message'
 import { format, parse } from 'date-fns'
 import { PlusCircle, Trash2 } from 'lucide-react'
 import { Controller, FormProvider } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { useToast } from '@/components/ui/use-toast'
 import {
   CreateEventDataType,
   useCreateEventForm,
@@ -29,16 +29,13 @@ import { SelectStartTimeInput } from './select-start-time-input'
 import { StartDatePicker } from './start-date-picker'
 
 export function CreateEventForm() {
-  const { toast } = useToast()
   const { form, events, handleAddEvent, resetEventFields, handleRemoveEvent } =
     useCreateEventForm()
 
   async function handleCreateEvent(data: CreateEventDataType) {
-    const toastConfig = toast({
-      title: 'Events Being Added',
-      description:
-        'Your events are currently being added to your calendar. This process may take a few moments. Thank you for your patience!',
-    })
+    const toastId = toast.loading(
+      'Your events are currently being added to your calendar. This process may take a few moments. Thank you for your patience!',
+    )
 
     try {
       const promises = data.events.map((event) => {
@@ -88,18 +85,19 @@ export function CreateEventForm() {
 
       await Promise.all(promises)
 
-      toastConfig.update({
-        id: toastConfig.id,
-        title: 'Congratulations!',
-        description:
-          'Your events were added to Google Calendar, go and check your calendar.',
-      })
+      toast.success(
+        'Congratulations! Your events were added to Google Calendar, go and check your calendar.',
+        {
+          id: toastId,
+        },
+      )
     } catch (error) {
-      toastConfig.update({
-        id: toastConfig.id,
-        title: 'Ops!',
-        description: 'An error ocurred while adding events to Google Calendar.',
-      })
+      toast.error(
+        'Ops! An error ocurred while adding events to Google Calendar.',
+        {
+          id: toastId,
+        },
+      )
     }
   }
 

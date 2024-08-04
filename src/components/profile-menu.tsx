@@ -1,5 +1,6 @@
 import { Loader2, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import {
   DropdownMenu,
@@ -15,27 +16,21 @@ import { GoogleAuthServices } from '@/services/google-auth-services'
 
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Skeleton } from './ui/skeleton'
-import { useToast } from './ui/use-toast'
 
 export function ProfileMenu() {
-  const { toast } = useToast()
   const navigate = useNavigate()
   const { userInfo } = useGetUserInfo()
 
   async function handleSignOut() {
-    const { dismiss } = toast({
-      title: 'Signing out...',
-      duration: Infinity,
-    })
+    const toastId = toast.loading('Signing out...', { duration: Infinity })
 
     try {
       await GoogleAuthServices.signOut()
     } catch {
     } finally {
       const storageKeysArray = Object.values(storageKeys)
-
       storageKeysArray.forEach((key) => localStorage.removeItem(key))
-      dismiss()
+      toast.dismiss(toastId)
       navigate('/sign-in')
     }
   }
