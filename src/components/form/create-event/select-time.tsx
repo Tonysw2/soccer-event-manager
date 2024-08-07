@@ -1,4 +1,5 @@
 import { SelectProps } from '@radix-ui/react-select'
+import { useMemo } from 'react'
 
 import {
   Select,
@@ -14,7 +15,19 @@ interface SelectTimeProps extends SelectProps {
 }
 
 export function SelectTime({ interval = 15, ...rest }: SelectTimeProps) {
-  const timeSlots = generateTimeIntervals(interval)
+  const timeSlots = useMemo(() => {
+    return generateTimeIntervals(interval)
+  }, [])
+
+  const content = useMemo(
+    () =>
+      timeSlots.map((time) => (
+        <SelectItem key={time} value={time}>
+          {time}
+        </SelectItem>
+      )),
+    [],
+  )
 
   return (
     <Select {...rest}>
@@ -23,11 +36,7 @@ export function SelectTime({ interval = 15, ...rest }: SelectTimeProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="none">None</SelectItem>
-        {timeSlots.map((time) => (
-          <SelectItem key={time} value={time}>
-            {time}
-          </SelectItem>
-        ))}
+        {content}
       </SelectContent>
     </Select>
   )
