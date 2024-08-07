@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { createEventSchema } from '@/schemas/create-event-schema'
@@ -62,6 +63,11 @@ export function useCreateEventForm() {
 
   function handleRemoveEvent(eventIndex: number) {
     return () => {
+      if (eventIndex === 0) {
+        toast.warning('You cannot remove the last event.')
+        return
+      }
+
       events.remove(eventIndex)
     }
   }
