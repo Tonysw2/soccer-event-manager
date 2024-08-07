@@ -63,7 +63,7 @@ export function useCreateEventForm() {
 
   function handleRemoveEvent(eventIndex: number) {
     return () => {
-      if (eventIndex === 0) {
+      if (events.fields.length <= 1) {
         toast.warning('You cannot remove the last event.')
         return
       }
