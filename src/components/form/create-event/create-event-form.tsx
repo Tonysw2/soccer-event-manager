@@ -1,6 +1,6 @@
 import { ErrorMessage } from '@hookform/error-message'
 import { format, parse } from 'date-fns'
-import { PlusCircle, Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { Controller, FormProvider } from 'react-hook-form'
 import { toast } from 'sonner'
 
@@ -29,8 +29,14 @@ import { SelectStartTimeInput } from './select-start-time-input'
 import { StartDatePicker } from './start-date-picker'
 
 export function CreateEventForm() {
-  const { form, events, handleAddEvent, resetEventFields, handleRemoveEvent } =
-    useCreateEventForm()
+  const {
+    form,
+    events,
+    resetForm,
+    handleAddEvent,
+    resetEventFields,
+    handleRemoveEvent,
+  } = useCreateEventForm()
 
   async function handleCreateEvent(data: CreateEventDataType) {
     const toastId = toast.loading(
@@ -103,12 +109,6 @@ export function CreateEventForm() {
 
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(handleCreateEvent)}>
-      <div className="flex gap-2 bg-background">
-        <Button size="sm" type="submit" disabled={form.formState.isSubmitting}>
-          Submit event creation
-        </Button>
-      </div>
-
       <FormProvider {...form}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {events.fields.map((event, eventIndex) => (
@@ -210,14 +210,34 @@ export function CreateEventForm() {
               </CardFooter>
             </Card>
           ))}
+        </div>
 
-          <button
+        <div className="flex gap-2 bg-background">
+          <Button
+            size="sm"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            Submit event creation
+          </Button>
+
+          <Button
+            size="sm"
             type="button"
-            className="flex h-full w-full items-center justify-center rounded-lg border"
+            variant="secondary"
             onClick={handleAddEvent}
           >
-            <PlusCircle className="size-6" />
-          </button>
+            Add another event
+          </Button>
+
+          <Button
+            size="sm"
+            type="button"
+            variant="secondary"
+            onClick={resetForm}
+          >
+            Reset form
+          </Button>
         </div>
       </FormProvider>
     </form>

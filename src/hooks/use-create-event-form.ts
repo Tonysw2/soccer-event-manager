@@ -56,6 +56,10 @@ export function useCreateEventForm() {
     }
   }
 
+  function resetForm() {
+    form.reset()
+  }
+
   function handleRemoveEvent(eventIndex: number) {
     return () => {
       events.remove(eventIndex)
@@ -65,6 +69,7 @@ export function useCreateEventForm() {
   return {
     form,
     events,
+    resetForm,
     handleAddEvent,
     resetEventFields,
     handleRemoveEvent,
