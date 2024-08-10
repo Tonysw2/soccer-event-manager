@@ -1,14 +1,8 @@
 import { ErrorMessage } from '@hookform/error-message'
-import { format, parse } from 'date-fns'
 import { Trash2 } from 'lucide-react'
 import { Controller, FormProvider } from 'react-hook-form'
-import { toast } from 'sonner'
 
-import {
-  CreateEventDataType,
-  useCreateEventForm,
-} from '@/hooks/use-create-event-form'
-import { GoogleCalendarApiServices } from '@/services/google-calendar-api-services'
+import { useCreateEventForm } from '@/hooks/use-create-event-form'
 
 import { Button } from '../../ui/button'
 import {
@@ -36,76 +30,8 @@ export function CreateEventForm() {
     handleAddEvent,
     resetEventFields,
     handleRemoveEvent,
+    handleCreateEvent,
   } = useCreateEventForm()
-
-  async function handleCreateEvent(data: CreateEventDataType) {
-    const toastId = toast.loading(
-      'Your events are currently being added to your calendar. This process may take a few moments. Thank you for your patience!',
-    )
-
-    try {
-      const promises = data.events.map((event) => {
-        let data
-
-        if (event.startTime === 'none') {
-          data = {
-            summary: event.summary,
-            description: event.description,
-            location: event.location,
-            start: {
-              date: format(event.startDate, 'yyyy-MM-dd'),
-            },
-            end: {
-              date: format(event.endDate, 'yyyy-MM-dd'),
-            },
-          }
-        }
-
-        if (event.startTime !== 'none') {
-          data = {
-            summary: event.summary,
-            description: event.description,
-            location: event.location,
-            start: {
-              dateTime: parse(
-                event.startTime!,
-                'HH:mm',
-                event.startDate,
-              ).toISOString(),
-            },
-            end: {
-              dateTime: parse(
-                event.endTime!,
-                'HH:mm',
-                event.endDate,
-              ).toISOString(),
-            },
-          }
-        }
-
-        return GoogleCalendarApiServices.createEvent({
-          calendarId: event.calendar,
-          data,
-        })
-      })
-
-      await Promise.all(promises)
-
-      toast.success(
-        'Congratulations! Your events were added to Google Calendar, go and check your calendar.',
-        {
-          id: toastId,
-        },
-      )
-    } catch (error) {
-      toast.error(
-        'Ops! An error ocurred while adding events to Google Calendar.',
-        {
-          id: toastId,
-        },
-      )
-    }
-  }
 
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(handleCreateEvent)}>
