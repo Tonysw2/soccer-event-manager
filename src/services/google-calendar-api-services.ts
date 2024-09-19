@@ -1,7 +1,7 @@
-import { AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 import { storageKeys } from '@/config/storageKeys'
-import { ICalendar } from '@/interfaces/calendar'
+import type { ICalendar } from '@/interfaces/calendar'
 
 import HttpClient from './http/httpClient'
 

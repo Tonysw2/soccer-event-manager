@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-react'
-import { Matcher } from 'react-day-picker'
+import type { Matcher } from 'react-day-picker'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'

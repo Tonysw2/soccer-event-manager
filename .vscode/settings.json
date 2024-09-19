@@ -1,6 +1,8 @@
 {
-  "cSpell.words": [
-    "lucide",
-    "sonner"
-  ]
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "cSpell.words": ["lucide", "sonner"]
 }

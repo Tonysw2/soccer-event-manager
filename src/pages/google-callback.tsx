@@ -32,7 +32,7 @@ export function GoogleCallback() {
     } else {
       navigate('/sign-in', { replace: true })
     }
-  }, [])
+  }, [navigate])
 
   return (
     <main className="grid h-screen w-full place-items-center">

@@ -1,4 +1,4 @@
-import { SVGProps } from 'react'
+import type { SVGProps } from 'react'
 
 export function GoogleIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -9,6 +9,7 @@ export function GoogleIcon(props: SVGProps<SVGSVGElement>) {
       fill="none"
       {...props}
     >
+      <title>Google Icon</title>
       <g clipPath="url(#a)">
         <path
           fill="#ea4235"
@@ -29,7 +30,10 @@ export function GoogleIcon(props: SVGProps<SVGSVGElement>) {
       </g>
       <defs>
         <clipPath id="a">
-          <path fill="#fff" d="M4 4h16v16H4z" />
+          <path
+            fill="#fff"
+            d="M4 4h16v16H4z"
+          />
         </clipPath>
       </defs>
     </svg>

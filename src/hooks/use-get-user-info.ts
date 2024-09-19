@@ -7,7 +7,7 @@ export function useGetUserInfo() {
   const { data, isLoading } = useQuery({
     queryKey: [queryKeys.userInfo],
     queryFn: () => GoogleAuthServices.getUserInfo(),
-    staleTime: Infinity,
+    staleTime: Number.POSITIVE_INFINITY,
   })
 
   return {

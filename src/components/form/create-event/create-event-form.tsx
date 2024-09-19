@@ -34,7 +34,10 @@ export function CreateEventForm() {
   } = useCreateEventForm()
 
   return (
-    <form className="space-y-4" onSubmit={form.handleSubmit(handleCreateEvent)}>
+    <form
+      className="space-y-4"
+      onSubmit={form.handleSubmit(handleCreateEvent)}
+    >
       <FormProvider {...form}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {events.fields.map((event, eventIndex) => (

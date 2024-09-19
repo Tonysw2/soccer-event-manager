@@ -3,7 +3,7 @@ import { addHours, format, parse } from 'date-fns'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { Label } from '@/components/ui/label'
-import { CreateEventDataType } from '@/hooks/use-create-event-form'
+import type { CreateEventDataType } from '@/hooks/use-create-event-form'
 
 import { FormError } from '../form-error'
 import { SelectTime } from './select-time'

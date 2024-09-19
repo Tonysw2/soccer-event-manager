@@ -1,9 +1,9 @@
 import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  CreateAxiosDefaults,
-  InternalAxiosRequestConfig,
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+  type CreateAxiosDefaults,
+  type InternalAxiosRequestConfig,
 } from 'axios'
 
 import { storageKeys } from '@/config/storageKeys'

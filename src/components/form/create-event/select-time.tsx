@@ -1,4 +1,4 @@
-import { SelectProps } from '@radix-ui/react-select'
+import type { SelectProps } from '@radix-ui/react-select'
 import { useMemo } from 'react'
 
 import {
@@ -15,14 +15,19 @@ interface SelectTimeProps extends SelectProps {
 }
 
 export function SelectTime({ interval = 15, ...rest }: SelectTimeProps) {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const timeSlots = useMemo(() => {
     return generateTimeIntervals(interval)
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const content = useMemo(
     () =>
       timeSlots.map((time) => (
-        <SelectItem key={time} value={time}>
+        <SelectItem
+          key={time}
+          value={time}
+        >
           {time}
         </SelectItem>
       )),

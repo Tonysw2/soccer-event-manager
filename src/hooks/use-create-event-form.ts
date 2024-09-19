@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { format, parse } from 'date-fns'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { z } from 'zod'
+import type { z } from 'zod'
 
 import { createEventSchema } from '@/schemas/create-event-schema'
 import { GoogleCalendarApiServices } from '@/services/google-calendar-api-services'
@@ -81,7 +81,7 @@ export function useCreateEventForm() {
 
     try {
       const promises = data.events.map((event) => {
-        let data
+        let data: any
 
         if (event.startTime === 'none') {
           data = {

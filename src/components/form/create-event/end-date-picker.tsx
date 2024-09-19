@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 
 import { DatePicker } from '@/components/date-picker'
 import { Label } from '@/components/ui/label'
-import { CreateEventDataType } from '@/hooks/use-create-event-form'
+import type { CreateEventDataType } from '@/hooks/use-create-event-form'
 
 import { FormError } from '../form-error'
 

@@ -22,7 +22,9 @@ export function ProfileMenu() {
   const { userInfo } = useGetUserInfo()
 
   async function handleSignOut() {
-    const toastId = toast.loading('Signing out...', { duration: Infinity })
+    const toastId = toast.loading('Signing out...', {
+      duration: Number.POSITIVE_INFINITY,
+    })
 
     try {
       await GoogleAuthServices.signOut()
@@ -69,8 +71,15 @@ export function ProfileMenu() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem asChild className="text-red-500">
-          <button type="button" className="w-full" onClick={handleSignOut}>
+        <DropdownMenuItem
+          asChild
+          className="text-red-500"
+        >
+          <button
+            type="button"
+            className="w-full"
+            onClick={handleSignOut}
+          >
             <LogOut className="mr-2 size-4" />
             <span>Sign-out</span>
           </button>

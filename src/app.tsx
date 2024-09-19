@@ -8,7 +8,10 @@ import { router } from './routes'
 
 export function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider
+      defaultTheme="dark"
+      storageKey="vite-ui-theme"
+    >
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>

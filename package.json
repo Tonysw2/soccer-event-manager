@@ -39,6 +39,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.2",
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/node": "^22.0.0",
     "@types/qs": "^6.9.15",

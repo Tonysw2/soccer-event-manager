@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 
 import { GoogleCallback } from './pages/google-callback'
 import { Home } from './pages/home'

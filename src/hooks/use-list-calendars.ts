@@ -10,7 +10,7 @@ export function useListCalendars() {
       GoogleCalendarApiServices.listCalendars({
         signal,
       }),
-    staleTime: Infinity,
+    staleTime: Number.POSITIVE_INFINITY,
   })
 
   const googleCreatedIdentifiers = ['holiday', 'contacts', 'weather', 'sports']
