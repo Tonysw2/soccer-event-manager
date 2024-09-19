@@ -21,7 +21,7 @@ export function SignIn() {
     GoogleAuthServices.signIn({
       state: env.VITE_GOOGLE_STATE,
       client_id: env.VITE_GOOGLE_CLIENT_ID,
-      redirect_uri: 'http://localhost:5173/callbacks/google',
+      redirect_uri: env.VITE_GOOGLE_REDIRECT_URL,
       response_type: 'token',
       scope:
         'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
